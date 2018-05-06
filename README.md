@@ -1,0 +1,2 @@
+# eshop-inventory
+product detail
