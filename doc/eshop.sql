@@ -1,0 +1,4 @@
+CREATE DATABASE IF NOT EXISTS eshop;
+USE eshop;
+CREATE TABLE user(name VARCHAR(255), age INT);
+INSERT INTO user VALUES('张三', 25);
