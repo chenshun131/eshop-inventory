@@ -1,6 +1,7 @@
 package com.chenshun.eshop.dao;
 
 import com.chenshun.eshop.util.SerializationUtil;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.stereotype.Repository;
 import redis.clients.jedis.JedisCluster;
@@ -17,18 +18,24 @@ import javax.annotation.Resource;
 @Repository
 public class RedisDAO {
 
+    /** 设置缓存时间一小时 */
+    @Value("${common.redis.timeout}")
+    private int timeout;
+
     @Resource
     private JedisCluster jedisCluster;
 
     public String set(String key, String value) {
-        // 设置缓存时间一小时
-        int timeout = 60 * 60;
         return jedisCluster.setex(SerializationUtil.serialize(key), timeout, SerializationUtil.serialize(value));
     }
 
     public String get(String key) {
         byte[] result = jedisCluster.get(SerializationUtil.serialize(key));
         return SerializationUtil.deserialize(result, String.class);
+    }
+
+    public void delete(String key) {
+        jedisCluster.del(key);
     }
 
 }

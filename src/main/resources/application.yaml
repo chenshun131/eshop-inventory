@@ -3,6 +3,8 @@ common:
   mysql:
     host: ci-server
   redis:
+    # Redis 中数据缓存时间，单位秒，设置缓存时间一小时
+    timeout: 60 * 60
     cluster:
       host: ci-server
   threadpool:

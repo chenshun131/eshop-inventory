@@ -8,4 +8,6 @@ package com.chenshun.eshop.util.request;
  */
 public interface Request {
 
+    void process();
+
 }
