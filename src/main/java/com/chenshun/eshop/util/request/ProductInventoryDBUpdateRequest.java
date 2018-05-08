@@ -2,6 +2,8 @@ package com.chenshun.eshop.util.request;
 
 import com.chenshun.eshop.model.ProductInventory;
 import com.chenshun.eshop.service.ProductInventoryService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * User: chenshun131 <p />
@@ -17,6 +19,8 @@ import com.chenshun.eshop.service.ProductInventoryService;
  */
 public class ProductInventoryDBUpdateRequest implements Request {
 
+    private Logger logger = LoggerFactory.getLogger(ProductInventoryDBUpdateRequest.class);
+
     /** 产品库存 */
     private ProductInventory productInventory;
 
@@ -30,8 +34,16 @@ public class ProductInventoryDBUpdateRequest implements Request {
 
     @Override
     public void process() {
+        logger.debug("===========日志===========: 数据库更新请求开始执行，商品id=" + productInventory.getProductId() + ", 商品库存数量=" + productInventory
+                .getInventoryCnt());
         // 删除 Redis 中的缓存
         productInventoryService.removeProductInventoryCache(productInventory);
+        // 为模拟演示先删除 redis 中的缓存，然后还没更新数据库的时候，读请求过来了，这里可以 sleep 一下
+//        try {
+//            Thread.sleep(20000);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
         // 修改数据库中的库存
         productInventoryService.updateProductInventory(productInventory);
     }
@@ -44,6 +56,11 @@ public class ProductInventoryDBUpdateRequest implements Request {
     @Override
     public Integer getProductId() {
         return productInventory.getProductId();
+    }
+
+    @Override
+    public boolean isForceRefresh() {
+        return false;
     }
 
 }

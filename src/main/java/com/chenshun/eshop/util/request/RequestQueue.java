@@ -2,7 +2,9 @@ package com.chenshun.eshop.util.request;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * User: mew <p />
@@ -14,6 +16,9 @@ public class RequestQueue {
 
     /** 内存队列 */
     private List<ArrayBlockingQueue<Request>> queues = new ArrayList<>();
+
+    /** 标识位map */
+    private Map<Integer, Boolean> flagMap = new ConcurrentHashMap<>();
 
     /**
      * 采用绝对线程安全的方式实现单利
@@ -68,6 +73,10 @@ public class RequestQueue {
      */
     public ArrayBlockingQueue<Request> getQueue(int index) {
         return queues.get(index);
+    }
+
+    public Map<Integer, Boolean> getFlagMap() {
+        return flagMap;
     }
 
 }

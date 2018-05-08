@@ -27,7 +27,7 @@ public class RequestProcessorThreadPool {
         RequestQueue requestQueue = RequestQueue.getInstance();
         for (int i = 0; i < threadcount; i++) {
             ArrayBlockingQueue<Request> queue = new ArrayBlockingQueue<>(100);
-            requestQueue.add(queue);
+            requestQueue.addQueue(queue);
             threadPool.submit(new RequestProcessorThread(queue));
         }
     }
