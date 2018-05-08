@@ -34,8 +34,13 @@ public class RedisDAO {
         return SerializationUtil.deserialize(result, String.class);
     }
 
+    /**
+     * delete redis data
+     *
+     * @param key
+     */
     public void delete(String key) {
-        jedisCluster.del(key);
+        jedisCluster.del(SerializationUtil.serialize(key));
     }
 
 }

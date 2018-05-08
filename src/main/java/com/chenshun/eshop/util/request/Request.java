@@ -10,4 +10,11 @@ public interface Request {
 
     void process();
 
+    /**
+     * 获取产品 id
+     *
+     * @return
+     */
+    Integer getProductId();
+
 }

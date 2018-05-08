@@ -22,8 +22,16 @@ public class RequestProcessorThread implements Callable<Boolean> {
 
     @Override
     public Boolean call() throws Exception {
-        while (true) {
-            break;
+        try {
+            while (true) {
+                // ArrayBlockingQueue
+                // Blocking就是说明，如果队列满，或者是空的，那么都会在执行操作的时候，阻塞住
+                Request request = queue.take();
+                // 执行这个 request 操作
+                request.process();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return true;
     }

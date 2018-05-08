@@ -22,6 +22,6 @@ public interface UserService {
      *
      * @return
      */
-    User getCacheduserInfo();
+    User getCachedUserInfo();
 
 }
