@@ -3,10 +3,31 @@ common:
   mysql:
     host: ci-server
   redis:
+    timeout: 3600
+    # 数据库链接池配置
+    config:
+      maxTotal: 100
+      maxIdle: 50
+      minIdle: 20
+      maxWaitMillis: 6000
+      testOnBorrow: true
     # Redis 中数据缓存时间，单位秒，设置缓存时间一小时
-    timeout: 60 * 60
-    cluster:
-      host: ci-server
+    jedisClusterNodes:
+      - host: ci-server
+        port: 7111
+      - host: ci-server
+        port: 7112
+      - host: ci-server
+        port: 7113
+      - host: ci-server
+        port: 7114
+      - host: ci-server
+        port: 7115
+      - host: ci-server
+        port: 7116
+    connectionTimeout: 2000
+    soTimeout: 2000
+    maxAttempts: 100
   threadpool:
     # 请求处理线程池存放线程的个数
     threadcount: 10

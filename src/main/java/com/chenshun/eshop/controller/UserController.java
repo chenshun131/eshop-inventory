@@ -26,7 +26,7 @@ public class UserController {
     @RequestMapping("getUserInfo")
     public User getUserInfo() {
         logger.debug("打印测试信息");
-        return userService.getCachedUserInfo();
+        return userService.findUserInfo();
     }
 
     @RequestMapping("getCacheUserInfo")

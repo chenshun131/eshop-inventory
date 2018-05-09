@@ -2,7 +2,6 @@ package com.chenshun.eshop.util.thread;
 
 import com.chenshun.eshop.util.request.Request;
 import com.chenshun.eshop.util.request.RequestQueue;
-import org.springframework.beans.factory.annotation.Value;
 
 import java.util.concurrent.*;
 
@@ -14,8 +13,7 @@ import java.util.concurrent.*;
  */
 public class RequestProcessorThreadPool {
 
-    @Value("${common.threadpool.threadcount}")
-    private int threadcount;
+    private int threadcount = 10;
 
     private ExecutorService threadPool;
 

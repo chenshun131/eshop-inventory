@@ -38,12 +38,12 @@ public class ProductInventoryController {
      */
     @RequestMapping("updateProductInventory")
     public Response updateProductInventory(ProductInventory productInventory) {
-        logger.debug("===========日志===========: 接收到更新商品库存的请求，商品id={}, 商品库存数量={}"
-                , productInventory.getProductId(), productInventory.getInventoryCnt());
+        logger.debug("接收到更新商品库存的请求，商品id={}, 商品库存数量={}", productInventory.getProductId(), productInventory.getInventoryCnt());
         Response response = null;
         try {
             Request request = new ProductInventoryDBUpdateRequest(productInventory, productInventoryService);
             requestAsyncProcessService.process(request);
+
             response = new Response(Response.SUCCESS);
         } catch (Exception e) {
             e.printStackTrace();
@@ -60,7 +60,7 @@ public class ProductInventoryController {
      */
     @RequestMapping("getProductInventory")
     public ProductInventory getProductInventory(Integer productId) {
-        logger.debug("===========日志===========: 接收到一个商品库存的读请求，商品id={}", productId);
+        logger.debug("接收到一个商品库存的读请求，商品id={}", productId);
         ProductInventory productInventory = null;
         try {
             Request request = new ProductInventoryCacheRefreshRequest(productId, productInventoryService, false);
@@ -85,8 +85,7 @@ public class ProductInventoryController {
                 productInventory = productInventoryService.getProductInventoryCache(productId);
                 // 如果读取到结果，那么就返回
                 if (productInventory != null) {
-                    logger.debug("===========日志===========: 在200ms内读取到了redis中的库存缓存，商品id={}, 商品库存数量={}",
-                            productInventory.getProductId(), productInventory.getInventoryCnt());
+                    logger.debug("在200ms内读取到了redis中的库存缓存，商品id={}, 商品库存数量={}", productInventory.getProductId(), productInventory.getInventoryCnt());
                     return productInventory;
                 } else {
                     // 如果没有读取到结果，那么等待一段时间
@@ -95,6 +94,7 @@ public class ProductInventoryController {
                     waitTime = endTime - startTime;
                 }
             }
+
             // 直接尝试从数据库中读取数据
             productInventory = productInventoryService.findProductInventory(productId);
             if (productInventory != null) {
@@ -109,7 +109,6 @@ public class ProductInventoryController {
                 // 2、可能在200ms内，就是读请求在队列中一直积压着，没有等待到它执行（在实际生产环境中，基本是比较坑了）
                 // 所以就直接查一次库，然后给队列里塞进去一个刷新缓存的请求
                 // 3、数据库里本身就没有，缓存穿透，穿透redis，请求到达mysql库
-
                 return productInventory;
             }
         } catch (Exception e) {

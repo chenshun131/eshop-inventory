@@ -29,15 +29,14 @@ public class ProductInventoryServiceImpl implements ProductInventoryService {
     @Override
     public void updateProductInventory(ProductInventory productInventory) {
         productInventoryMapper.updateProductInventory(productInventory);
-        logger.debug("===========日志===========: 已修改数据库中的库存，商品id=" + productInventory.getProductId() + ", 商品库存数量=" +
-                productInventory.getInventoryCnt());
+        logger.debug("已修改数据库中的库存，商品id={}, 商品库存数量={}", productInventory.getProductId(), productInventory.getInventoryCnt());
     }
 
     @Override
     public void removeProductInventoryCache(ProductInventory productInventory) {
         String key = String.format("product:inventory:%d", productInventory.getProductId());
         redisDAO.delete(key);
-        logger.debug("===========日志===========: 已删除redis中的缓存，key=" + key);
+        logger.debug("已删除redis中的缓存，key={}", key);
     }
 
     /**
@@ -61,8 +60,7 @@ public class ProductInventoryServiceImpl implements ProductInventoryService {
     public void setProductInventoryCache(ProductInventory productInventory) {
         String key = String.format("product:inventory:%d", productInventory.getProductId());
         redisDAO.set(key, productInventory.getInventoryCnt().toString());
-        logger.debug("===========日志===========: 已更新商品库存的缓存，商品id=" + productInventory.getProductId() + ", 商品库存数量=" +
-                productInventory.getInventoryCnt() + ", key=" + key);
+        logger.debug("已更新商品库存的缓存，商品id={}, 商品库存数量={}, key={}", productInventory.getProductId(), productInventory.getInventoryCnt(), key);
     }
 
     /**

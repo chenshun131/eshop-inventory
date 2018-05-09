@@ -1,7 +1,6 @@
 package com.chenshun.eshop;
 
 import com.chenshun.eshop.util.listener.InitListener;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
@@ -22,8 +21,7 @@ import java.util.Set;
 @SpringBootApplication
 public class EshopApplication {
 
-    @Value(value = "${common.redis.cluster.host}")
-    private String host;
+    private String host = "ci-server";
 
     @Bean
     public JedisCluster jedisCluster() {

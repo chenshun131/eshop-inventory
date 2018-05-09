@@ -24,6 +24,14 @@ public class ProductInventoryCacheRefreshRequest implements Request {
     /** 是否强制刷新缓存 */
     private boolean forceRefresh;
 
+    /**
+     * @param productId
+     *         商品id
+     * @param productInventoryService
+     *         商品库存 Service
+     * @param forceRefresh
+     *         是否强制刷新缓存
+     */
     public ProductInventoryCacheRefreshRequest(Integer productId, ProductInventoryService productInventoryService, boolean forceRefresh) {
         this.productId = productId;
         this.productInventoryService = productInventoryService;
@@ -34,7 +42,7 @@ public class ProductInventoryCacheRefreshRequest implements Request {
     public void process() {
         // 从数据库中查询最新的商品库存数量
         ProductInventory productInventory = productInventoryService.findProductInventory(productId);
-        logger.debug("===========日志===========: 已查询到商品最新的库存数量，商品id=" + productId + ", 商品库存数量=" + productInventory.getInventoryCnt());
+        logger.debug("已查询到商品最新的库存数量，商品id=" + productId + ", 商品库存数量=" + productInventory.getInventoryCnt());
         // 将最新的商品库存数量，刷新到 Redis 缓存中去
         productInventoryService.setProductInventoryCache(productInventory);
     }

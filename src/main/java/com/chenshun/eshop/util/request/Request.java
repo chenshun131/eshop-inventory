@@ -17,6 +17,11 @@ public interface Request {
      */
     Integer getProductId();
 
+    /**
+     * 是否强制刷新
+     *
+     * @return
+     */
     boolean isForceRefresh();
 
 }
