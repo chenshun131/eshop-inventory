@@ -17,7 +17,6 @@ import java.util.Set;
 
 @ImportResource(locations = {"classpath:druid-bean.xml"})
 @EnableTransactionManagement // 开启事务管理功能
-@ComponentScan
 @SpringBootApplication
 public class EshopApplication {
 
